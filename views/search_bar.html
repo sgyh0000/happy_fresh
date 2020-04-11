@@ -1,0 +1,20 @@
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+<div class="search_bar clearfix">
+    <a href="/index" class="logo fl"><img src="/static/images/logo.png"></a>
+    {{ if .CurrentPathName }}
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;{{ .CurrentPathName }}</div>
+    {{ end }}
+    <div class="search_con fl">
+        <form action="/search" method="get">
+            <input type="text" class="input_text fl" name="itemName" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr" value="搜索">
+        </form>
+    </div>
+    {{ if .CurrentPathName }}
+    {{ else }}
+        <div class="guest_cart fr">
+            <a href="/cart" class="cart_name fl">我的购物车</a>
+            <div class="goods_count fl" id="show_count">{{ .CartCount }}</div>
+        </div>
+    {{ end }}
+</div>

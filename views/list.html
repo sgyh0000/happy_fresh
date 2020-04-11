@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>幸福鲜生-商品列表</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+</head>
+<body>
+	{{template "header.html" .}}
+
+	{{template "search_bar.html" .}}
+
+	{{template "nav_bar.html" .}}
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			{{template "new_item.html" .}}
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+				<a href="#" class="active">默认</a>
+				<a href="#">价格</a>
+				<a href="#">人气</a>
+			</div>
+
+			<ul class="goods_type_list clearfix">
+				{{ range $index, $item := .item}}
+				<li>
+					<a href="/item/{{ $item.Id }}"><img src="/static/images/goods/{{ $item.Pic }}"></a>
+					<h4><a href="/item/{{ $item.Id }}">{{ $item.Name }}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{ printf "%.2f" $item.Price }}</span>
+						<span class="unit">{{ printf "%.2f" $item.Price }}/{{ $item.Unit }}</span>
+{{/*						<a href="#" class="add_goods" title="加入购物车"></a>*/}}
+					</div>
+				</li>
+				{{ end }}
+			</ul>
+
+
+
+			<div class="pagenation">
+				<a href="#">上一页</a>
+				<a href="#" class="active">1</a>
+				<a href="#">2</a>
+				<a href="#">3</a>
+				<a href="#">4</a>
+				<a href="#">5</a>
+				<a href="#">下一页</a>
+			</div>
+		</div>
+	</div>
+
+	{{template "footer.html" .}}
+	
+</body>
+</html>

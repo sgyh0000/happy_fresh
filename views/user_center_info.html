@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>幸福鲜生-用户中心</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+</head>
+<body>
+	{{template "header.html" .}}
+
+	{{template "search_bar.html" .}}
+
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="javascript:" class="active">· 个人信息</a></li>
+				<li><a href="/user_center/order">· 全部订单</a></li>
+				<li><a href="/user_center/site">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<div class="info_con clearfix">
+				<h3 class="common_title2">基本信息</h3>
+						<ul class="user_info_list">
+							<li><span>用户名：</span>{{ .Delivery.RealName }}</li>
+							<li><span>联系方式：</span>{{ .Delivery.Telephone }}</li>
+							<li><span>联系地址：</span>{{ .Delivery.Address }}</li>
+						</ul>
+				</div>
+				
+				<h3 class="common_title2">最近浏览</h3>
+				<div class="has_view_list">
+					<ul class="goods_type_list clearfix">
+						{{ range $i, $item := .DiyItems }}
+						<li>
+							<a href="/item/{{ $item.Id }}"><img src="/static/images/goods/{{ $item.Pic }}"></a>
+							<h4><a href="/item/{{ $item.Id }}">{{ $item.Name }}</a></h4>
+							<div class="operate">
+								<span class="prize">￥{{ printf "%.2f" $item.Price }}</span>
+								<span class="unit">{{ printf "%.2f" $item.Price }}/{{ $item.Unit }}</span>
+{{/*								<a href="#" class="add_goods" title="加入购物车"></a>*/}}
+							</div>
+						</li>
+						{{ end }}
+					</ul>
+		</div>
+		</div>
+	</div>
+
+
+
+	{{template "footer.html" .}}
+	
+</body>
+</html>

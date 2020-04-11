@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>幸福鲜生-首页</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
+</head>
+<body>
+	{{template "header.html" .}}
+
+	{{template "search_bar.html" .}}
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+            {{ range $index, $elem := .Categories}}
+                <li><a href="#{{ $elem.Category.Id }}" class="fruit">{{ $elem.Category.Name }}</a></li>
+            {{ end }}
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+				<li><img src="/static/images/slide.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide02.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide03.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide04.jpg" alt="幻灯片"></li>
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+			<a href="#"><img src="/static/images/adv01.jpg"></a>
+			<a href="#"><img src="/static/images/adv02.jpg"></a>
+		</div>
+	</div>
+
+	{{ range $index, $elem := .Categories}}
+		<div class="list_model">
+			<div class="list_title clearfix">
+				<h3 class="fl" id="{{ $elem.Category.Id }}">{{ $elem.Category.Name }}</h3>
+				<div class="subtitle fl">
+					<span>|&nbsp;&nbsp;<img width="16" height="16" src="/static/images/hot.jpg"/> </span>
+					{{ range $i, $hotItem := $elem.HotItems }}
+						<span><a href="/item/{{ $hotItem.Id }}">{{ $hotItem.Name }}</a></span>
+					{{ else }}
+						<span>暂无热门商品</span>
+					{{ end }}
+				</div>
+				<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			</div>
+
+			<div class="goods_con clearfix">
+				<div class="goods_banner fl"><img src="/static/images/{{ $elem.Category.Pic }}"></div>
+				<ul class="goods_list fl">
+					{{ range $i, $item := $elem.Items}}
+					<li>
+						<h4><a href="/item/{{ $item.Id }}">{{ $item.Name }}</a></h4>
+						<a href="/item/{{ $item.Id }}"><img src="/static/images/goods/{{ $item.Pic }}"></a>
+						<div class="prize">¥ {{ printf "%.2f" $item.Price }}</div>
+					</li>
+					{{ end }}
+				</ul>
+			</div>
+		</div>
+	{{ end }}
+
+
+	{{template "footer.html" .}}
+	<script type="text/javascript" src="/static/js/slideshow.js"></script>
+	<script type="text/javascript">
+		BCSlideshow('focuspic');
+		var oFruit = document.getElementById('fruit_more');
+		var oShownum = document.getElementById('show_count');
+
+		var hasorder = localStorage.getItem('order_finish');
+
+		if(hasorder)
+		{
+			oShownum.innerHTML = '2';
+		}
+
+		oFruit.onclick = function(){
+			window.location.href = 'list.html';
+		}
+	</script>
+</body>
+</html>

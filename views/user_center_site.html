@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>幸福鲜生-用户中心</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+	{{template "header.html" .}}
+
+	{{template "search_bar.html" .}}
+
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="/user_center/info">· 个人信息</a></li>
+				<li><a href="/user_center/order">· 全部订单</a></li>
+				<li><a href="javascript:;" class="active">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						<dd>{{ .Delivery.Address }} （{{ .Delivery.RealName }} 收） {{ .Delivery.Telephone }}</dd>
+					</dl>					
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					<form action="/delivery/edit" method="post">
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="RealName">
+						</div>
+						{{ if .ErrorMap }}
+						<div class="error" {{if index .ErrorMap "RealName" }} style="display: block" {{end}}>{{ print index .ErrorMap "RealName" }}</div>
+						{{ end }}
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea class="site_area" name="Address"></textarea>
+						</div>
+						{{ if .ErrorMap }}
+						<div class="error" {{if index .ErrorMap "Address" }} style="display: block" {{end}}>{{ print index .ErrorMap "Address" }}</div>
+						{{ end }}
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="Code">
+						</div>
+						{{ if .ErrorMap }}
+						<div class="error" {{if index .ErrorMap "Code" }} style="display: block" {{end}}>{{ print index .ErrorMap "Code" }}</div>
+						{{ end }}
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="Telephone">
+						</div>
+						{{ if .ErrorMap }}
+						<div class="error" {{if index .ErrorMap "Telephone" }} style="display: block" {{end}}>{{ print index .ErrorMap "Telephone" }}</div>
+						{{ end }}
+
+						<input type="submit" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+	</div>
+
+
+
+	{{template "footer.html" .}}
+
+	<script type="text/javascript">
+	</script>
+</body>
+</html>

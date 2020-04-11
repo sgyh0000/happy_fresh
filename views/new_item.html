@@ -1,0 +1,12 @@
+<div class="new_goods">
+    <h3>新品推荐</h3>
+    <ul>
+        {{ range $i, $item := .NewItems}}
+        <li>
+            <a href="/item/{{ $item.Id }}"><img src="/static/images/goods/{{ $item.Pic }}"></a>
+            <h4><a href="/item/{{ $item.Id }}">{{ $item.Name }}</a></h4>
+            <div class="prize">￥{{ printf "%.2f" $item.Price }}</div>
+        </li>
+        {{ end }}
+    </ul>
+</div>

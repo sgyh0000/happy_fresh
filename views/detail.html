@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>幸福鲜生-商品详情</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script src="/static/js/jquery-ui.js" type="javascript"></script>
+</head>
+<body>
+	{{/* 头部 */}}
+	{{template "header.html" .}}
+
+	{{/* 搜索栏 */}}
+	{{template "search_bar.html" .}}
+
+	{{/* 导航栏 */}}
+	{{template "nav_bar.html" .}}
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+		<span>></span>
+		<a href="#">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="/static/images/{{ .Item.DetailPic }}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{ .Item.Name }}</h3>
+			<p>{{ .Item.Desc }}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em id="price">{{ printf "%.2f" .Item.Price }}</em></span>
+				<span class="show_unit">单  位：{{ .Item.Unit }}</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" value="1">
+					<a href="javascript:add();" class="add fr">+</a>
+					<a href="javascript:minor();" class="minus fr">-</a>
+				</div> 
+			</div>
+			<div class="total">总价：<em id="total_price">{{ printf "%.2f" .Item.Price }}</em></div>
+			<div class="operate_btn">
+				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			{{template "new_item.html" .}}
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+				<li>评论</li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{ .Item.Detail }}</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+
+	{{template "footer.html" .}}
+	<div class="add_jump"></div>
+
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+		var $add_x = $('#add_cart').offset().top;
+		var $add_y = $('#add_cart').offset().left;
+
+		var $to_x = $('#show_count').offset().top;
+		var $to_y = $('#show_count').offset().left;
+
+		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+		$('#add_cart').click(() => {
+			let num = parseInt($(".num_show").val())
+			$.ajax({
+				url: "/cart/add?itemId=" + {{ .Item.Id }} + "&num=" + num,
+				type: "get",
+				dataType: "json",
+				async: false,
+				success: msg => {
+					msg = $.parseJSON(msg);
+					console.log(typeof msg, msg)
+					if (msg.Success === true) {
+						let count = msg.Data
+						console.log(count)
+						$(".add_jump").stop().animate({'left': $to_y+7,'top': $to_x+7}, "normal", function() {
+								$(".add_jump").fadeOut('normal',function(){
+									$('#show_count').html(count);
+								});
+								setTimeout(() => {
+									$(".add_jump").css({"left": "835px", "top": "564px", "display": "block"})
+								}, 1000)
+							}
+						);
+						// reset
+
+					}
+				}
+			})
+
+
+		});
+
+		const price = parseFloat($("#price")[0].innerText);
+
+		function add() {
+			let i = $(".num_show").val();
+			i = parseInt(i) + 1;
+			$(".num_show").val(i);
+			$("#total_price")[0].innerText = i * price
+		}
+		function minor() {
+			let i = $(".num_show").val()
+			i = parseInt(i)
+			// 数量为1时不能再减
+			if (i === 1) {
+				return
+			}
+			i--
+			$(".num_show").val(i)
+			$("#total_price")[0].innerText = i * price
+		}
+	</script>
+	
+</body>
+</html>
